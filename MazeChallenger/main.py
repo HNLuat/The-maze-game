@@ -11,10 +11,10 @@ WIDTH, HEIGHT = 1200, 720
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Maze")
 black_BG = pygame.Rect(0, 0, WIDTH, HEIGHT) 
-BGmusic = pygame.mixer.music.load("My Game/audio/BGmusic.ogg")
+BGmusic = pygame.mixer.music.load("My Game/audio/BGmusic2.mp3")
 pygame.mixer.music.play(-1)
 FONT = pygame.font.SysFont("comicsans", 30 )
-
+Mode = {"Easy": True, "Normal": False, "Hard": False, "Nightmare": False}
 
 class pause_table:
     def __init__(self, table_WIDTH, table_HEIGHT, table_thickness, element_WIDTH, element_HEIGHT, element_thickness, size ):
@@ -105,6 +105,29 @@ def draw_cell(cells, tile, obj1, obj1_size, obj2, obj2_size):
     if cells.walls['left']:
         pygame.draw.line(WIN, pygame.Color('darkgreen'), (x, y + cells.tile), (x, y), cells.thickness)
     
+def draw_Mode_button(easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button):
+    pygame.draw.rect(WIN, "green", easy_mode_button, width = 10)
+    pygame.draw.rect(WIN, "orange", normal_mode_button, width = 10)
+    pygame.draw.rect(WIN, "red", hard_mode_button, width = 10)
+    pygame.draw.rect(WIN, "purple", nightmare_mode_button, width = 10)
+    if Mode["Easy"]:
+        pygame.draw.rect(WIN, "green", easy_mode_button)
+    if Mode["Normal"]:
+        pygame.draw.rect(WIN, "orange", normal_mode_button)
+    if Mode["Hard"]:
+        pygame.draw.rect(WIN, "red", hard_mode_button)
+    if Mode["Nightmare"]:
+        pygame.draw.rect(WIN, "purple", nightmare_mode_button)
+    easy_mode_text = FONT.render(f"EASY", 1, "white")
+    normal_mode_text = FONT.render(f"NORMAL", 1, "white")
+    hard_mode_text = FONT.render(f"HARD", 1, "white")
+    nightmare_mode_text = FONT.render(f"NIGHTMARE", 1, "white")
+    
+    WIN.blit(easy_mode_text, (110, HEIGHT - 75))
+    WIN.blit(normal_mode_text, (390, HEIGHT - 75))
+    WIN.blit(hard_mode_text, (710, HEIGHT - 75))
+    WIN.blit(nightmare_mode_text, (960, HEIGHT - 75))
+
 
 def get_current_cell(x, y, grid_cells):
     # get cell (x,y) in grid_cells 
@@ -198,12 +221,42 @@ def reached_goal(player, goal_cell, tile):
     else:
         return False
 
+def check_choose_mode(mouse_pos, easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button):
+    # check if the player choose game mode
+    easy = easy_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
+    normal = normal_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
+    hard = hard_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
+    nightmare = nightmare_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
+
+    # if player has click at any choosing game mode button, we init all the Mode to false,
+    if easy or normal or hard or nightmare:
+        Mode["Easy"] = False
+        Mode["Normal"] = False
+        Mode["Hard"] = False
+        Mode["Nightmare"] = False
+
+    # then check if which one is clicked
+    if (easy_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]):
+        Mode["Easy"] = True
+    if (normal_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]):
+        Mode["Normal"] = True
+    if (hard_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]):
+        Mode["Hard"] = True
+    if (nightmare_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]):
+        Mode["Nightmare"] = True
+
 def main():
     inHub = True
     
     # "Play game" button stats
     button_WIDTH = 200
     button_HEIGHT = 60  
+
+    # create gamemode button
+    easy_mode_button = pygame.Rect(0, HEIGHT - 100, 300, 200)
+    normal_mode_button = pygame.Rect(300, HEIGHT - 100, 300, 200)
+    hard_mode_button = pygame.Rect(600, HEIGHT - 100, 300, 200)
+    nightmare_mode_button = pygame.Rect(900, HEIGHT - 100, 300, 200)
 
     # "pause" button stat
     P_button = pygame.Rect(WIDTH - 300, 20, 100, 100)
@@ -229,17 +282,17 @@ def main():
     # time couting
     elapsed_time = 0
     start_time = time.time()
-    paused_time = 0    
+    paused_time = 0
     
     # bullet stats
     bullet_size = 30
     bullet_add_increment = 5000
     num_bullet_add = 2
-    bullet_count = 10000
+    bullet_count = 7000
     bullet = pygame.image.load("My Game/images/bullet.png")
     bullet = pygame.transform.scale(bullet, (bullet_size, bullet_size))
-    max_bullet = 6
-    num_bullet = 3
+    max_bullet = 12
+    num_bullet = 6
 
     # key stats
     key_size = 25
@@ -263,9 +316,9 @@ def main():
     maze.generate_maze()
 
     # monster stats
-    monster = Monster(10, 25)
-    monster_star_running_time = 3
-    monster_paralyzed_time = 3
+    monster = Monster(5, 25)
+    monster_star_running_time = 4
+    monster_paralyzed_time = 4
     monster_is_paralyzed = False
     paralyzed_count = 0
 
@@ -287,10 +340,12 @@ def main():
                 inHub = False
                 start_time = time.time()
             draw_BG()
+            check_choose_mode(mouse_pos, easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button)
+            draw_Mode_button(easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button)
             draw_button(button)
             pygame.display.update()
             continue 
-
+        
         # when the game is over
         if gameover != 0 :
             draw_gameover(gameover)
@@ -323,6 +378,27 @@ def main():
         
         # initilize stuff in game
         if not game_init:
+            # Game mode
+            if Mode["Normal"]:
+                max_bullet = 6
+                num_bullet = 3
+                monster.vel = 7
+                monster.color = "orange"
+            if Mode["Hard"]:
+                max_bullet = 6
+                num_bullet = 3
+                monster.vel = 9
+                monster.color = "red"
+                monster_star_running_time = 3
+                monster_paralyzed_time = 3
+            if Mode["Nightmare"]:
+                max_bullet = 6
+                num_bullet = 3
+                monster.vel = 15
+                monster.color = "purple"
+                monster_star_running_time = 2
+                monster_paralyzed_time = 2
+            # Spawn key
             random.shuffle(ids_list)
             for _ in range(num_key_to_win):
                 i = ids_list[_]
@@ -342,6 +418,7 @@ def main():
         if not monster_is_paralyzed and elapsed_time > monster_star_running_time:
             if monster.run(player, maze) == 1:
                 gameover = -1
+                continue
         if num_key == num_key_to_win and reached_goal(player, maze.grid_cells[-1], tile):
             gameover = 1
         
