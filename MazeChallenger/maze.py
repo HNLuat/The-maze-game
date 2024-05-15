@@ -1,11 +1,10 @@
-# %%
-# maze.py
 import pygame
 from cell import Cell
 from random import choice
 
 
 class Maze:
+    # class của mê cung 
     def __init__(self, cols, rows, tile, obj1_size, obj2_size):
         self.cols = cols
         self.rows = rows
@@ -14,6 +13,7 @@ class Maze:
         self.grid_cells = [Cell(col, row, tile, self.thickness, obj1_size, obj2_size) for row in range(self.rows) for col in range(self.cols)]
         
     def remove_walls(self, current, next):
+        # hàm phá tường giữa 2 cell
         dx = current.x - next.x
         if dx == 1:
             current.walls['left'] = False
@@ -30,6 +30,7 @@ class Maze:
             next.walls['top'] = False
             
     def generate_maze(self):
+        # hàm tạo mê cung
         current_cell = self.grid_cells[0]
         array = []
         break_count = 1
@@ -47,4 +48,3 @@ class Maze:
                 current_cell = array.pop()
         return self.grid_cells
 
-# %%
