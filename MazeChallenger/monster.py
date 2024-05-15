@@ -8,43 +8,44 @@ def get_current_cell(x, y, grid_cells):
             return cell
         
 class Monster:
+    # class của kẻ địch
     def __init__(self, vel, size):
         self.vel = vel
         self.size = size
+        self.color = "green"
         self.rect = pygame.Rect(0, 0, size, size)
 
     def run(self, player, maze):
-        # check if the monster catch the player
-        if self.rect.colliderect(player):
+        # vừa kiểm tra kẻ đich đã bắt được người chơi chưa và vừa di chuyển người chơi
+        player_hitbox_size = player.w // 3
+        player_hitbox = pygame.Rect((player.x + player_hitbox_size // 2, player.y + player_hitbox_size // 2), (player_hitbox_size, player_hitbox_size))
+        if self.rect.colliderect(player_hitbox):
             return 1
 
-        # get player and monster position
         x1 = self.rect.x
         y1 = self.rect.y
-        x2 = player.x
-        y2 = player.y
+        x2 = player_hitbox.centerx
+        y2 = player_hitbox.centery
         current_cell_x1, current_cell_y1 = x1 // maze.tile, y1 // maze.tile
         current_cell_x2, current_cell_y2 = x2 // maze.tile, y2 // maze.tile
         current_cell1 = get_current_cell(current_cell_x1, current_cell_y1, maze.grid_cells)
         current_cell2 = get_current_cell(current_cell_x2, current_cell_y2, maze.grid_cells)
         
-        # check if the monster are in the same cell as the player
         if current_cell_x1 == current_cell_x2 and current_cell_y1 == current_cell_y2:
             if x1 + self.size <= x2:
                 self.rect.x += self.vel
-            if x2 + player.w <= x1:
+            if x2 + player_hitbox.w <= x1:
                 self.rect.x -= self.vel
             if y1 + self.size <= y2:
                 self.rect.y += self.vel
-            if y2 + player.h <= y1:
+            if y2 + player_hitbox.h <= y1:
                 self.rect.y -= self.vel
             return 0
 
-        # reset visited array
         for cell in maze.grid_cells:
             cell.visited = False
         
-        # start finding way using BFS
+        
         queue = []
         queue.append(current_cell2)
         parent = -1
@@ -71,11 +72,8 @@ class Monster:
             if parent != -1 :
                 break
 
-        # moving the monster
-        # first, get the cell that the monster head to
         current = current_cell1
         next = parent
-        # secondly, make the command for the monster to move
         moving_state = {'left': False, 'right': False, 'up': False, 'down': False}
         dx = current.x - next.x
         if dx == 1:
@@ -88,10 +86,6 @@ class Monster:
         elif dy == -1:
             moving_state['down'] = True
         
-        # finally, move the monster
-        # however, because we only use the top left corner of the monster, there are some situation 
-        # that the monster are between 2 cells, so if we only move the monster to its destination cell,
-        # it will go through the wall. This is my solution for this case
         current_cell_x3, current_cell_y3 = (x1 + self.size) // maze.tile, (y1 + self.size) // maze.tile
         if current_cell_x3 != current_cell_x1:
             if moving_state['up'] or moving_state['down']:
@@ -102,7 +96,7 @@ class Monster:
             if moving_state['left'] or moving_state['right']:
                 moving_state['left'] = moving_state['right'] = False
                 moving_state['up'] = True
-        # Now just move the monster
+
         if moving_state['left']:
             self.rect.x -= self.vel
         if moving_state['right']:
@@ -115,4 +109,5 @@ class Monster:
         return 0
 
     def draw(self, sc):
-        pygame.draw.rect(sc, "red", self.rect)
+        # hàm vẽ kẻ địch
+        pygame.draw.rect(sc, self.color, self.rect)
