@@ -14,7 +14,7 @@ WIDTH, HEIGHT = 1200, 720
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Maze")
 black_BG = pygame.Rect(0, 0, WIDTH, HEIGHT) 
-BGmusic = pygame.mixer.music.load("My Game/audio/BGmusic2.mp3")
+BGmusic = pygame.mixer.music.load("MazeChallenger/audio/BGmusic2.mp3")
 pygame.mixer.music.play(-1)
 FONT = pygame.font.SysFont("comicsans", 30 )
 Mode = {"Easy": True, "Normal": False, "Hard": False, "Nightmare": False}
@@ -44,9 +44,9 @@ def draw_button(button):
 
 def draw_player(player, monster):
     # vẽ người chơi ,cây súng của người chơi và xoay cây súng theo hướng của kẻ địch
-    player_image = pygame.image.load("My Game/images/player.png")
+    player_image = pygame.image.load("MazeChallenger/images/player.png")
     player_image = pygame.transform.scale(player_image, (player.w, player.h))
-    gun_image = pygame.image.load("My Game/images/gun.png")
+    gun_image = pygame.image.load("MazeChallenger/images/gun.png")
     gun_image = pygame.transform.scale(gun_image, (player.w, player.h))
     x_dist = monster.rect.centerx - player.centerx
     y_dist = -(monster.rect.centery - player.centery)
@@ -62,10 +62,10 @@ def draw_player(player, monster):
 
 def draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet):
     # vẽ cho người chơi biết số lượng key và bullet hiện có
-    bullet = pygame.image.load("My Game/images/bullet.png")
+    bullet = pygame.image.load("MazeChallenger/images/bullet.png")
     bullet = pygame.transform.scale(bullet, (75, 75))
 
-    key = pygame.image.load("My Game/images/key.png")
+    key = pygame.image.load("MazeChallenger/images/key.png")
     key = pygame.transform.scale(key, (75, 75))
 
     WIN.blit(bullet, (800, 280))
@@ -275,7 +275,7 @@ def main():
     nightmare_mode_button = pygame.Rect(900, HEIGHT - 100, 300, 200)
 
     P_button = pygame.Rect(WIDTH - 300, 20, 100, 100)
-    P_image = pygame.image.load("My Game/images/pause_button.png")
+    P_image = pygame.image.load("MazeChallenger/images/pause_button.png")
     P_image = pygame.transform.scale(P_image, (100, 100))
     P_table = pause_table(400, 300, 5, 300, 80, 5, 40)
     paused = False
@@ -298,7 +298,7 @@ def main():
     bullet_add_increment = 3000
     num_bullet_add = 1
     bullet_count = 3000
-    bullet = pygame.image.load("My Game/images/bullet.png")
+    bullet = pygame.image.load("MazeChallenger/images/bullet.png")
     bullet = pygame.transform.scale(bullet, (bullet_size, bullet_size))
     max_bullet = 12
     num_bullet = 6
@@ -308,7 +308,7 @@ def main():
     list_shooted_bullet = []
 
     key_size = 30
-    key = pygame.image.load("My Game/images/key.png")
+    key = pygame.image.load("MazeChallenger/images/key.png")
     key = pygame.transform.scale(key, (key_size, key_size))
     num_key = 0
     num_key_to_win = 10
