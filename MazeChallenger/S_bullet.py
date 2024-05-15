@@ -12,7 +12,7 @@ class sbullet:
     def __init__(self, vel, size):
         self.vel = vel
         self.size = size
-        shooted_bullet = pygame.image.load("My Game/images/bullet.png")
+        shooted_bullet = pygame.image.load("MazeChallenger/images/bullet.png")
         self.image = pygame.transform.scale(shooted_bullet, (size, size))
         self.angle = 0
         self.rect = pygame.Rect(0, 0, size, size)
