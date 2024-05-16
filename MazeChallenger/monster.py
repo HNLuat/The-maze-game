@@ -8,7 +8,7 @@ def get_current_cell(x, y, grid_cells):
             return cell
         
 class Monster:
-    # class của kẻ địch
+    # dự liệu của kẻ địch (monster)
     def __init__(self, vel, size):
         self.vel = vel
         self.size = size
@@ -16,9 +16,10 @@ class Monster:
         self.rect = pygame.Rect(0, 0, size, size)
 
     def run(self, player, maze):
-        # vừa kiểm tra kẻ đich đã bắt được người chơi chưa và vừa di chuyển người chơi
-        player_hitbox_size = player.w // 3
-        player_hitbox = pygame.Rect((player.x + player_hitbox_size // 2, player.y + player_hitbox_size // 2), (player_hitbox_size, player_hitbox_size))
+        # đưa và dữ liệu player, maze
+        # di chuyển kẻ đich để bắt người chơi, trả về 1 nếu kẻ đich đã bắt được, trả về 0 khi vẫn chưa bắt được
+        player_hitbox_size = player.w // 2
+        player_hitbox = pygame.Rect((player.x + (player.w - player_hitbox_size)//2, player.y + (player.h - player_hitbox_size)//2) , (player_hitbox_size, player_hitbox_size))
         if self.rect.colliderect(player_hitbox):
             return 1
 
@@ -32,13 +33,13 @@ class Monster:
         current_cell2 = get_current_cell(current_cell_x2, current_cell_y2, maze.grid_cells)
         
         if current_cell_x1 == current_cell_x2 and current_cell_y1 == current_cell_y2:
-            if x1 + self.size <= x2:
+            if x1 + self.size < x2:
                 self.rect.x += self.vel
-            if x2 + player_hitbox.w <= x1:
+            if x2 < x1:
                 self.rect.x -= self.vel
-            if y1 + self.size <= y2:
+            if y1 + self.size < y2:
                 self.rect.y += self.vel
-            if y2 + player_hitbox.h <= y1:
+            if y2 < y1:
                 self.rect.y -= self.vel
             return 0
 
@@ -109,5 +110,5 @@ class Monster:
         return 0
 
     def draw(self, sc):
-        # hàm vẽ kẻ địch
+        # đưa vào surface để vẽ lên và vẽ kẻ địch
         pygame.draw.rect(sc, self.color, self.rect)
