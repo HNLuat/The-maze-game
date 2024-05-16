@@ -14,6 +14,7 @@ class Cell:
         self.visited = False
         
     def check_cell(self, x, y, cols, rows, grid_cells):
+        # đưa và vị trí, số cột, số hàng và danh sách các ô trong mê cung
         # kiểm tra xem ô (cell) có tồn tại không và trả về ô đó nếu có
         find_index = lambda x, y: x + y * cols
         if x < 0 or x > cols - 1 or y < 0 or y > rows - 1:
@@ -21,7 +22,8 @@ class Cell:
         return grid_cells[find_index(x, y)]
 
     def check_neighbors(self, cols, rows, grid_cells):
-        # kiểm tra xem các ô bên cạnh đã đi vào chưa
+        # đưa vào số hàng, số cột, danh sách các ô trong mê cung
+        # kiểm tra xem các ô bên cạnh đã đi vào chưa và trả về các ô chưa đến
         neighbors = []
         top = self.check_cell(self.x, self.y - 1, cols, rows, grid_cells)
         right = self.check_cell(self.x + 1, self.y, cols, rows, grid_cells)
