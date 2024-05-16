@@ -12,7 +12,7 @@ pygame.font.init()
 # các thông số chính của tựa game
 WIDTH, HEIGHT = 1200, 720
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Maze")
+pygame.display.set_caption("Maze Challenger")
 black_BG = pygame.Rect(0, 0, WIDTH, HEIGHT) 
 BGmusic = pygame.mixer.music.load("audio/BGmusic.mp3")
 pygame.mixer.music.play(-1)
@@ -37,13 +37,15 @@ def draw_BG():
     pygame.draw.rect(WIN, "black", black_BG )
 
 def draw_button(button):
+    # input là dữ liệu của nút "play game"
     # vẽ nút "play game"
     pygame.draw.rect(WIN, "white", button, width = 5)
     play_text = FONT.render(f"PLAY GAME", 1, "white")
     WIN.blit(play_text, ( (WIDTH - 170)/2, (HEIGHT - 45)/2 ) )
 
 def draw_player(player, monster):
-    # vẽ người chơi ,cây súng của người chơi và xoay cây súng theo hướng của kẻ địch
+    # input vào là dữ liệu của player và monster
+    # vẽ người chơi, cây súng của người chơi và xoay cây súng theo hướng của kẻ địch
     player_image = pygame.image.load("images/player.png")
     player_image = pygame.transform.scale(player_image, (player.w, player.h))
     gun_image = pygame.image.load("images/gun.png")
@@ -61,6 +63,7 @@ def draw_player(player, monster):
     WIN.blit(gun_image, gun_rect)
 
 def draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet):
+    # đưa và số lượng key đang có và số lượng key cần, số lượng bullet đang có và số lượng bullet tối đa
     # vẽ cho người chơi biết số lượng key và bullet hiện có
     bullet = pygame.image.load("images/bullet.png")
     bullet = pygame.transform.scale(bullet, (75, 75))
@@ -77,10 +80,12 @@ def draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet):
     WIN.blit(bullets_text,(1000, 300))
 
 def draw_pause_button(P_image):
+    # đưa vào dữ liệu hình ảnh của nút dừng
     # vẽ nút dừng
     WIN.blit(P_image, (WIDTH - 300, 20))
 
 def draw_paused_table(P_table):
+    # đưa vào dữ liệu của bảng dừng
     # vẽ bảng khi dừng game
     ct = P_table.continue_table
     rt = P_table.return_table
@@ -96,6 +101,7 @@ def draw_paused_table(P_table):
     WIN.blit(return_text, (rt.x + round((rt.width - 0.63*6*sz)/2) , rt.y + round((rt.height - 1.5*sz)/2) ) ) 
 
 def draw_gameover(win):
+    # đưa vào dữ liệu cho biết người chơi thắng hay thua
     # vẽ khi game đã kết thúc
     gameover_text = FONT.render(f"GAME OVER", 1, "white")
     WIN.blit(gameover_text, (450, 280))
@@ -108,6 +114,7 @@ def draw_gameover(win):
         WIN.blit(youwin_text, (465, 350))
 
 def draw_cell(cells, obj1, obj1_size, obj2, obj2_size):
+    # đưa vào dữ liệu của 1 ô, và dữ liệu cho biết có key hay bullet ở ô đó không kích thước của key và bullet
     # vẽ tường giữa những ô (cell)
     x, y = cells.x * cells.tile, cells.y * cells.tile
     if cells.obj1_here :
@@ -123,7 +130,15 @@ def draw_cell(cells, obj1, obj1_size, obj2, obj2_size):
     if cells.walls['left']:
         pygame.draw.line(WIN, pygame.Color('darkgreen'), (x, y + cells.tile), (x, y), cells.thickness)
     
+def draw_door(tile):
+    # đưa và kích thước ô
+    # vẽ cánh cổng ở ô đích
+    door_image = pygame.image.load("images/door.png")
+    door_image = pygame.transform.scale(door_image, (tile - 5, tile - 5))
+    WIN.blit(door_image, (HEIGHT - tile + 5, HEIGHT - tile ))
+
 def draw_Mode_button(easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button):
+    # đưa vào dữ liệu của các nút chon độ khó
     # vẽ nút chọn độ khó và hiển thị độ khó hiện tại
     pygame.draw.rect(WIN, "green", easy_mode_button, width = 10)
     pygame.draw.rect(WIN, "orange", normal_mode_button, width = 10)
@@ -149,13 +164,16 @@ def draw_Mode_button(easy_mode_button, normal_mode_button, hard_mode_button, nig
 
 
 def get_current_cell(x, y, grid_cells):
-    # trả vè ô (cell) ở vị trí (x, y), ( (x, y) là vị trí của ô đó )
+    # đưa vào x, y là vị trí
+    # trả vè ô (cell) ở vị trí (x, y)
     for cell in grid_cells:
         if cell.x == x and cell.y == y:
             return cell
         
 def check_move(x, y, grid_cells, tile, thickness, moving_state):
+    # đưa vào vị trí người chơi, các ô trong mê cung, kích thước của cell, đồ dày bức tường, và trạng thái mà người chơi di chuyển
     # kiểm tra xem người chơi có di chuyển đụng tường hay ra ngoài map không
+    # trả về trạng thái di chuyển mới sau khi đã chỉnh sửa
     current_cell_x, current_cell_y = x // tile, y // tile
     current_cell = get_current_cell(current_cell_x, current_cell_y, grid_cells)
     current_cell_abs_x, current_cell_abs_y = current_cell_x * tile, current_cell_y * tile
@@ -179,7 +197,9 @@ def check_move(x, y, grid_cells, tile, thickness, moving_state):
     return temp_moving_state
 
 def check_move2(direction, vel, x1, x2, y, grid_cells, tile):
+    # đưa và chiều mà người chơi hướng đến, vận tốc người chơi, vị trí các ô mà người chơi đang ở, các ô trong mê cung và kích thước mỗi ô
     # kiểm tra xem người chơi có di chuyển vào giữa tường (wall) không
+    # hàm trả về 0 hoặc 1 biểu thị người chơi có thể di chuyển tiếp theo hướng cũ mà không đi vào giữa tường hay không
     current_cell_x1, current_cell_x2, current_cell_y = x1 // tile, x2 // tile, y // tile
     if direction == "left" or direction == "right" :
         current_cell_1 = get_current_cell(current_cell_y, current_cell_x1, grid_cells)
@@ -199,7 +219,8 @@ def check_move2(direction, vel, x1, x2, y, grid_cells, tile):
     return 1
 
 def MOVE(keys, player, vel, grid_cells, tile, thickness):
-    # hàm di chuyển người chơi
+    # đưa vào các phím mà người chơi ấn, dữ liệu của player, tốc độ của player, các ô trong mê cung và độ dày của tường
+    # di chuyển người chơi
     moving_state = {'left' : keys[pygame.K_LEFT], 'right' : keys[pygame.K_RIGHT], 'up' : keys[pygame.K_UP], 'down' : keys[pygame.K_DOWN] }
     temp_state = check_move(player.x, player.y, grid_cells, tile, thickness, moving_state)
     temp_state = temp_state and check_move(player.x + player.w, player.y, grid_cells, tile, thickness, moving_state)
@@ -217,8 +238,9 @@ def MOVE(keys, player, vel, grid_cells, tile, thickness):
     
 
 def check_eat_obj(player, maze):
+    # đưa vào dữ liệu player và maze
     # kiểm tra xem người chơi có nhặt key hay bullet không
-    # hàm sẽ trả về 1 tuple(x, y) (x, y theo kiểu bool) x = 1 thì người chơi nhặt được key, y = 1 thì người chơi nhặt được bullet
+    # hàm sẽ trả về 1 tuple(x, y), x = 1 thì người chơi nhặt được key, y = 1 thì người chơi nhặt được bullet
     eat1 = 0
     eat2 = 0
     for cell in maze.grid_cells :
@@ -233,6 +255,7 @@ def check_eat_obj(player, maze):
     return eat1, eat2
 
 def reached_goal(player, goal_cell, tile):
+    # đưa vào dữ liệu người chơi, ô đích, và kích thước ô
     # kiểm tra xem người chơi đã đến đích chưa
     goal_cell_abs_x, goal_cell_abs_y = goal_cell.x * tile, goal_cell.y * tile
     if player.x >= goal_cell_abs_x and player.y >= goal_cell_abs_y:
@@ -241,6 +264,7 @@ def reached_goal(player, goal_cell, tile):
         return False
 
 def check_choose_mode(mouse_pos, easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button):
+    # đưa và vị trí con trỏ chuột, dữ liệu các nút chọn chế độ chơi
     # kiểm tra xem người chơi có chọn chế độ chơi không, và thay đổi chế độ chơi
     easy = easy_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
     normal = normal_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
@@ -341,7 +365,7 @@ def main():
 
         if inHub:
             button = pygame.Rect(( (WIDTH - button_WIDTH)/2, (HEIGHT - button_HEIGHT)/2 ), (button_WIDTH, button_HEIGHT))
-            if (button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]) or ((time.time() - start_time) >=1 and keys[pygame.K_SPACE]):
+            if (button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]) or ((time.time() - start_time) >=0.5 and keys[pygame.K_SPACE]):
                 inHub = False
                 start_time = time.time()
             draw_BG()
@@ -355,7 +379,7 @@ def main():
             draw_gameover(gameover)
             pygame.display.update()
             gameover_time = time.time() - start_time - elapsed_time
-            if gameover_time >= 3 or (gameover_time >= 1 and keys[pygame.K_SPACE]):
+            if gameover_time >= 3 or (gameover_time >= 0.5 and keys[pygame.K_SPACE]):
                 main()
                 return
             continue
@@ -444,7 +468,7 @@ def main():
         monster.draw(WIN)
         for cell in maze.grid_cells:
             draw_cell(cell, bullet, bullet_size, key, key_size)
-        
+        draw_door(tile)
         if len(list_shooted_bullet) > 0:
             lst_pop = []
             for i in range(len(list_shooted_bullet)):
