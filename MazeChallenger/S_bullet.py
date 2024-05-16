@@ -18,7 +18,8 @@ class sbullet:
         self.rect = pygame.Rect(0, 0, size, size)
 
     def run(self, sc, maze_size):
-        # kiểm tra vị trí hiện tại có phù hợp và cho viên đạn bay tiếp
+        # đưa vào surface để vẽ lên và kích thước của toàn bộ mê cung
+        # cho viên đạn bay tiếp và trả về 1 vị trí hiện tại có phù hợp, trả về 0 nếu không phù hợp
         xvel = round(-math.sin(math.radians(self.angle))*self.vel)
         yvel = round(-math.cos(math.radians(self.angle))*self.vel)
         self.rect.x += xvel
@@ -28,7 +29,8 @@ class sbullet:
         return checkpos(self.rect.x, self.rect.y, maze_size)
 
     def shoot(self, sc, xs, ys, xd, yd):
-        # hàm điều chỉnh viên đạn khi người chơi bắn
+        # đưa và surface để vẽ lên, vị trí của nơi xuất phát viên đạn, vị trí của đích đến viên đan
+        # hàm điều chỉnh góc của viên đạn khi người chơi bắn
         self.rect.centerx = xs
         self.rect.centery = ys
         x_dist = xd - xs
@@ -37,8 +39,7 @@ class sbullet:
         self.image = pygame.transform.rotate(self.image, angle - 90)
         self.angle = angle - 90
         self.draw(sc)
-        return 1
 
-    def draw(self, sc):        
-        # hàm vẽ viên đạn
+    def draw(self, sc):
+        # đưa vào surface và vẽ viên đạn
         sc.blit(self.image, (self.rect.x, self.rect.y))
