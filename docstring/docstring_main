@@ -1,1 +1,63 @@
 
+
+    # các thuộc tính của bảng hiện lên khi dừng game
+
+    # vẽ background
+
+    # input là dữ liệu của nút "play game"
+    # vẽ nút "play game"
+
+
+    # input vào là dữ liệu của player và monster
+    # vẽ người chơi, cây súng của người chơi và xoay cây súng theo hướng của kẻ địch
+
+
+    # đưa và số lượng key đang có và số lượng key cần, số lượng bullet đang có và số lượng bullet tối đa
+    # vẽ cho người chơi biết số lượng key và bullet hiện có và hướng dẫn chơi
+
+    # đưa vào dữ liệu hình ảnh của nút dừng
+    # vẽ nút dừng
+
+    # đưa vào dữ liệu của bảng dừng
+    # vẽ bảng khi dừng game
+
+    # đưa vào dữ liệu cho biết người chơi thắng hay thua
+    # vẽ khi game đã kết thúc
+
+    
+    # đưa vào dữ liệu của 1 ô, và dữ liệu cho biết có key hay bullet ở ô đó không kích thước của key và bullet
+    # vẽ tường giữa những ô (cell)
+
+    # đưa và kích thước ô
+    # vẽ cánh cổng ở ô đích
+
+    # đưa vào dữ liệu của các nút chon độ khó
+    # vẽ nút chọn độ khó và hiển thị độ khó hiện tại
+
+    # đưa vào x, y là vị trí
+    # trả vè ô (cell) ở vị trí (x, y)
+
+    # đưa vào vị trí người chơi, các ô trong mê cung, kích thước của cell, đồ dày bức tường, và trạng thái mà người chơi di chuyển
+    # kiểm tra xem người chơi có di chuyển đụng tường hay ra ngoài map không
+    # trả về trạng thái di chuyển mới sau khi đã chỉnh sửa
+
+    # đưa và chiều mà người chơi hướng đến, vận tốc người chơi, vị trí các ô mà người chơi đang ở, các ô trong mê cung và kích thước mỗi ô
+    # kiểm tra xem người chơi có di chuyển vào giữa tường (wall) không
+    # hàm trả về 0 hoặc 1 biểu thị người chơi có thể di chuyển tiếp theo hướng cũ mà không đi vào giữa tường hay không
+
+    # đưa vào các phím mà người chơi ấn, dữ liệu của player, tốc độ của player, các ô trong mê cung và độ dày của tường
+    # di chuyển người chơi
+
+    # đưa vào dữ liệu player và maze
+    # kiểm tra xem người chơi có nhặt key hay bullet không
+    # hàm sẽ trả về 1 tuple(x, y), x = 1 thì người chơi nhặt được key, y = 1 thì người chơi nhặt được bullet
+
+    # đưa vào dữ liệu người chơi, ô đích, và kích thước ô
+    # kiểm tra xem người chơi đã đến đích chưa
+
+
+    # đưa và vị trí con trỏ chuột, dữ liệu các nút chọn chế độ chơi
+    # kiểm tra xem người chơi có chọn chế độ chơi không, và thay đổi chế độ chơi
+
+    # chạy vòng lặp game
+    
