@@ -64,7 +64,7 @@ def draw_player(player, monster):
 
 def draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet):
     # đưa và số lượng key đang có và số lượng key cần, số lượng bullet đang có và số lượng bullet tối đa
-    # vẽ cho người chơi biết số lượng key và bullet hiện có
+    # vẽ cho người chơi biết số lượng key và bullet hiện có và hướng dẫn chơi
     bullet = pygame.image.load("images/bullet.png")
     bullet = pygame.transform.scale(bullet, (75, 75))
 
@@ -78,6 +78,16 @@ def draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet):
     
     WIN.blit(keys_text, (1000, 200))
     WIN.blit(bullets_text,(1000, 300))
+
+    howtoplay_text1 = FONT.render("COLLECT ALL KEYS AND", 1, "white")
+    howtoplay_text2 = FONT.render("REACH THE GOAL TO WIN", 1, "white")
+    shoot_text = FONT.render("SPACE TO SHOOT", 1, "white")
+    movement_text = FONT.render("ARROW KEY TO MOVE", 1, "white")
+
+    WIN.blit(movement_text, (800, 400))
+    WIN.blit(shoot_text, (800, 475))
+    WIN.blit(howtoplay_text1, (800, 550))
+    WIN.blit(howtoplay_text2, (800, 600))
 
 def draw_pause_button(P_image):
     # đưa vào dữ liệu hình ảnh của nút dừng
@@ -344,7 +354,7 @@ def main():
     total_grid = maze_size**2
     maze = Maze(maze_size, maze_size, tile, bullet_size, key_size)
     ids_list = []
-    for i in range(total_grid):
+    for i in range(total_grid-1):
         ids_list.append(i)
     maze.generate_maze()
 
@@ -463,12 +473,14 @@ def main():
             num_bullet += eat_state[0]
         num_key += eat_state[1]
 
+
+
         draw_BG()
-        draw_player(player, monster)
-        monster.draw(WIN)
+        draw_door(tile)
         for cell in maze.grid_cells:
             draw_cell(cell, bullet, bullet_size, key, key_size)
-        draw_door(tile)
+        draw_player(player, monster)
+        monster.draw(WIN)
         if len(list_shooted_bullet) > 0:
             lst_pop = []
             for i in range(len(list_shooted_bullet)):
