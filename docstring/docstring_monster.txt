@@ -1,0 +1,7 @@
+    # dự liệu của kẻ địch (monster)
+
+    # đưa và dữ liệu player, maze
+    # di chuyển kẻ đich để bắt người chơi, trả về 1 nếu kẻ đich đã bắt được, trả về 0 khi vẫn chưa bắt được
+       
+    # đưa vào surface để vẽ lên và vẽ kẻ địch
+        

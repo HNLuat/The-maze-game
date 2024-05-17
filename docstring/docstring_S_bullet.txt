@@ -1,0 +1,10 @@
+
+    # class của bullet khi được bắn ra và khi đang bay
+
+    # đưa vào surface để vẽ lên và kích thước của toàn bộ mê cung
+    # cho viên đạn bay tiếp và trả về 1 vị trí hiện tại có phù hợp, trả về 0 nếu không phù hợp
+        
+    # đưa và surface để vẽ lên, vị trí của nơi xuất phát viên đạn, vị trí của đích đến viên đan
+    # hàm điều chỉnh góc của viên đạn khi người chơi bắn
+        
+    # đưa vào surface và vẽ viên đạn

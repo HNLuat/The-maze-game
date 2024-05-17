@@ -1,0 +1,8 @@
+    # class của mê cung 
+
+    # input là 2 ô kề nhau
+    # hàm này sẽ phá tường giữa 2 ô
+
+    # hàm tạo mê cung bằng cách phá tường giữa các ô
+    # hàm trả về mê cung sau khi đã phá tường
+    

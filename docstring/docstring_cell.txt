@@ -1,0 +1,10 @@
+
+    # class của kiểu ô (cell)
+
+    # đưa và vị trí, số cột, số hàng và danh sách các ô trong mê cung
+    # kiểm tra xem ô (cell) có tồn tại không và trả về ô đó nếu có
+
+    # đưa vào số hàng, số cột, danh sách các ô trong mê cung
+    # kiểm tra xem các ô bên cạnh đã đi vào chưa và trả về các ô chưa đến
+
+
