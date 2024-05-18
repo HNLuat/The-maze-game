@@ -5,10 +5,26 @@ from monster import Monster
 import math
 
 def checkpos(x, y, n):
+    """
+    kiểm tra xem vị trí hiện tại có nằm trong mê cung không
+    input:
+        - x,y: vị trí cần xét
+        - n: kích thước mê cung
+    return: 1 nếu thỏa, 0 nếu không
+    """
     return x >= 0 and x <= n and y >= 0 and y <= n
         
 class sbullet:
-    # class của bullet khi được bắn ra và khi đang bay
+    """
+    class: sbullet: viên đạn đang bay
+    input: 
+        - vel: tốc độ viên đạn
+        - size: kích thước viên đạn
+    các thông số khác:
+        - image: hình ảnh của viên đạn
+        - angle: góc của viên đạn
+        - rect: hitbox của viên đạn hiện tại
+    """
     def __init__(self, vel, size):
         self.vel = vel
         self.size = size
@@ -18,8 +34,15 @@ class sbullet:
         self.rect = pygame.Rect(0, 0, size, size)
 
     def run(self, sc, maze_size):
-        # đưa vào surface để vẽ lên và kích thước của toàn bộ mê cung
-        # cho viên đạn bay tiếp và trả về 1 vị trí hiện tại có phù hợp, trả về 0 nếu không phù hợp
+        """
+        cho viên đạn bay tiếp
+        input: 
+            - sc: surface để vẽ lên
+            - maze_size: kích thước mê cung
+        return :
+            - 1 nếu viên đạn còn nằm trong mê cung
+            - 0 nếu không
+        """
         xvel = round(-math.sin(math.radians(self.angle))*self.vel)
         yvel = round(-math.cos(math.radians(self.angle))*self.vel)
         self.rect.x += xvel
@@ -29,8 +52,13 @@ class sbullet:
         return checkpos(self.rect.x, self.rect.y, maze_size)
 
     def shoot(self, sc, xs, ys, xd, yd):
-        # đưa và surface để vẽ lên, vị trí của nơi xuất phát viên đạn, vị trí của đích đến viên đan
-        # hàm điều chỉnh góc của viên đạn khi người chơi bắn
+        """
+        điều chỉnh góc độ và bắt đầu bắn viên đạn
+        input:
+            - sc: surface để vẽ viên đạn
+            - xs, ys: vị trí hiện tại bắn viên đạn
+            - xd, yd: vị trí đích đến của viên đạn
+        """
         self.rect.centerx = xs
         self.rect.centery = ys
         x_dist = xd - xs
@@ -41,5 +69,9 @@ class sbullet:
         self.draw(sc)
 
     def draw(self, sc):
-        # đưa vào surface và vẽ viên đạn
+        """
+        vẽ viên đạn
+        input:
+            - sc: surface để vẽ viên đạn
+        """
         sc.blit(self.image, (self.rect.x, self.rect.y))
