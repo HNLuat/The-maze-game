@@ -1,8 +1,24 @@
-    # class của mê cung 
 
-    # input là 2 ô kề nhau
-    # hàm này sẽ phá tường giữa 2 ô
-
-    # hàm tạo mê cung bằng cách phá tường giữa các ô
-    # hàm trả về mê cung sau khi đã phá tường
+    """
+    class: Maze: mê cung hiện tại
+    input:
+        - cols, rows, số hàng số cột của mê cung
+        - tile: kích thước mỗi ô trong mê cung
+        - obj1_size, obj2_size: lần lượt là kích thước của key và bullet
+    các thông số khác:
+        - thichness: độ dày của tường
+        - grid_cells: list tất cả các ô của mê cung
+    """
     
+        """
+        Phá tường giữa 2 ô
+        input:
+            - current, next: kiểu cells: là 2 ô cần phá tường ở giữa
+        """
+        
+        """
+        Tạo mê cung
+        return: grid_cells: list tất cả các ô sau khi phá tường
+        """
+       
+
