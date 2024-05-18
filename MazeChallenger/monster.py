@@ -8,7 +8,15 @@ def get_current_cell(x, y, grid_cells):
             return cell
         
 class Monster:
-    # dự liệu của kẻ địch (monster)
+    """
+    class: Monster: kẻ địch
+    input:
+        - vel: tốc độ kẻ địch
+        - size: kích thước kẻ địch
+    các thông sô khác:
+        - color: màu để vẻ kẻ địch
+        - rect: kiểu pygame.Rect: thông số, hitbox của kẻ địch
+    """
     def __init__(self, vel, size):
         self.vel = vel
         self.size = size
@@ -16,8 +24,15 @@ class Monster:
         self.rect = pygame.Rect(0, 0, size, size)
 
     def run(self, player, maze):
-        # đưa và dữ liệu player, maze
-        # di chuyển kẻ đich để bắt người chơi, trả về 1 nếu kẻ đich đã bắt được, trả về 0 khi vẫn chưa bắt được
+        """
+        Tìm đường và di chuyển kẻ địch:
+        input: 
+            - player: kiểu pygame.Rect: thông số của người chơi
+            - maze: mê cung hiện tại
+        return:
+            - 1 nếu kẻ địch bắt được người chơi
+            - 0 nếu không
+        """
         player_hitbox_size = player.w // 2
         player_hitbox = pygame.Rect((player.x + (player.w - player_hitbox_size)//2, player.y + (player.h - player_hitbox_size)//2) , (player_hitbox_size, player_hitbox_size))
         if self.rect.colliderect(player_hitbox):
@@ -110,5 +125,9 @@ class Monster:
         return 0
 
     def draw(self, sc):
-        # đưa vào surface để vẽ lên và vẽ kẻ địch
+        """
+        Vẽ kẻ địch
+        input:
+            - sc: surface để vẻ lên
+        """
         pygame.draw.rect(sc, self.color, self.rect)
