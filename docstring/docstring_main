@@ -1,63 +1,154 @@
 
+    """
+    class: pause_table: bảng dừng game 
+    input:
+        - table_WIDTH: kiểu int: chiều rộng của bảng
+        - table_HEIGHT: kiểu int: chiều cao của bảng
+        - table_thickness: kiểu int: độ dày của hình chữ nhật của bảng
+        - element_WIDTH: kiểu int: chiều rộng của các hình chữ nhật nhỏ hơn, hitbox của nút "continue" và "return"
+        - element_HEIGHT: kiểu int: chiều cao của hình chữ nhật nhỏ
+        - element_thickness: kiểu int: độ dày của hình chữ nhật nhỏ
+        - size: kiểu int: kích thước font chữ
+    """
 
-    # các thuộc tính của bảng hiện lên khi dừng game
-
-    # vẽ background
-
-    # input là dữ liệu của nút "play game"
-    # vẽ nút "play game"
-
-
-    # input vào là dữ liệu của player và monster
-    # vẽ người chơi, cây súng của người chơi và xoay cây súng theo hướng của kẻ địch
-
-
-    # đưa và số lượng key đang có và số lượng key cần, số lượng bullet đang có và số lượng bullet tối đa
-    # vẽ cho người chơi biết số lượng key và bullet hiện có và hướng dẫn chơi
-
-    # đưa vào dữ liệu hình ảnh của nút dừng
-    # vẽ nút dừng
-
-    # đưa vào dữ liệu của bảng dừng
-    # vẽ bảng khi dừng game
-
-    # đưa vào dữ liệu cho biết người chơi thắng hay thua
-    # vẽ khi game đã kết thúc
-
+    """
+    Vẽ background
+    """
     
-    # đưa vào dữ liệu của 1 ô, và dữ liệu cho biết có key hay bullet ở ô đó không kích thước của key và bullet
-    # vẽ tường giữa những ô (cell)
+    """
+    Vẽ nút play game
+    input: 
+        - button: kiểu dữ liệu pygame.Rect: là hitbox của nút
+    """
 
-    # đưa và kích thước ô
-    # vẽ cánh cổng ở ô đích
-
-    # đưa vào dữ liệu của các nút chon độ khó
-    # vẽ nút chọn độ khó và hiển thị độ khó hiện tại
-
-    # đưa vào x, y là vị trí
-    # trả vè ô (cell) ở vị trí (x, y)
-
-    # đưa vào vị trí người chơi, các ô trong mê cung, kích thước của cell, đồ dày bức tường, và trạng thái mà người chơi di chuyển
-    # kiểm tra xem người chơi có di chuyển đụng tường hay ra ngoài map không
-    # trả về trạng thái di chuyển mới sau khi đã chỉnh sửa
-
-    # đưa và chiều mà người chơi hướng đến, vận tốc người chơi, vị trí các ô mà người chơi đang ở, các ô trong mê cung và kích thước mỗi ô
-    # kiểm tra xem người chơi có di chuyển vào giữa tường (wall) không
-    # hàm trả về 0 hoặc 1 biểu thị người chơi có thể di chuyển tiếp theo hướng cũ mà không đi vào giữa tường hay không
-
-    # đưa vào các phím mà người chơi ấn, dữ liệu của player, tốc độ của player, các ô trong mê cung và độ dày của tường
-    # di chuyển người chơi
-
-    # đưa vào dữ liệu player và maze
-    # kiểm tra xem người chơi có nhặt key hay bullet không
-    # hàm sẽ trả về 1 tuple(x, y), x = 1 thì người chơi nhặt được key, y = 1 thì người chơi nhặt được bullet
-
-    # đưa vào dữ liệu người chơi, ô đích, và kích thước ô
-    # kiểm tra xem người chơi đã đến đích chưa
-
-
-    # đưa và vị trí con trỏ chuột, dữ liệu các nút chọn chế độ chơi
-    # kiểm tra xem người chơi có chọn chế độ chơi không, và thay đổi chế độ chơi
-
-    # chạy vòng lặp game
+    """
+    vẽ người chơi và cho cây súng xoay về hướng kẻ địch
+    input:
+        - player: kiểu dữ liệu pygame.Rect: là các thông số của player.
+        - monster: kiểu dữ liệu Monster (trong file monster.py): là thông số của kẻ địch
+    """
     
+    """
+    Vẽ các thứ ở góc phải màn hình khi chơi bao gồm số key hiện có, số bullet hiện có và hướng dẫn chơi
+    input:
+        - num_key: kiểu int: số lượng key mà người chơi hiện có
+        - num_bullet: kiểu int: số lượng bullet mà người chơi hiện có
+        - num_key_to_win: kiểu int: số lượng key mà người chơi cần có để thắng
+        - max_bullet: kiểu int: số lượng bullet tối đa mà người chơi có thể có 
+    """
+   
+    """
+    Vẽ nút dừng game
+    """
+   
+    """
+    Vẽ bảng dừng game.
+    input:
+        - P_table: kiểu pause_table: thông số của bảng dừng game
+    """
+    
+    """
+    Vẽ dòng chữ hiện lên khi kết thúc game
+    input:
+        - win: kiểu bool: cho biết người chơi thắng hay thua
+    """
+    
+    """
+    Vẽ tường xung quanh 1 ô và key và bullet nếu có trong ô
+    input:
+        - cells: kiểu Cell (trong file cell): thông số của 1 ô
+        - obj1: kiểu pygame image: hình của bullet
+        - obj2: kiểu pygame image: hình của key
+        - obj1_size: kích thước của hình bullet (hình vuông)
+        - obj2_size: kích kích thước của hình key (hình vuông)
+    """ 
+
+    """
+    Vẽ cánh cửa ở ô đích
+    input:
+        - kích thước mỗi ô
+    """
+    
+    """
+    Vẽ các nút chọn độ khó và cho biết độ khó đang chọn
+    input: 
+        - easy_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "easy"
+        - normal_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "normal"
+        - hard_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "hard"
+        - nightmare_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "nightmare"
+    """
+    
+    """
+    Hàm lấy ô ở vị trí (x,y)
+    input:
+        - x, y: cả 2 đều kiểu int : vị trí của ô
+        - grid_cells: list chứa tất cả các ô
+    """
+
+    """
+    kiểm tra xem người chơi có di chuyển đụng tường hay không
+    input:
+        - x, y: đều là kiểu int: vị trí người chơi
+        - grid_cells: list chứa tất cả các ô
+        - tile: kiểu int: kích thước mỗi ô
+        - thickness: kiểu int: độ dày của tường
+        - moving_state: kiểu dictionaries: cho biết: trạng thái di chuyển hiện tại của người chơi
+    return: kiểu dictionaries: trạng thái di chuyển mới của người chơi
+    """
+    
+    """
+    kiểm tra xem người chơi có đi vào giữa tường không
+    input: 
+        - direction: kiểu string: cho biết hướng đi hiện tại của người chơi
+        - vel: kiểu int: cho biết tốc độ của người chơi
+        - x1, x2, y: đều là kiểu int: cho biết vị trí của người chơi ở góc trái trên, trái dưới, hoặc là góc trái trên, phải trên
+        - grid_cells: list chứa tất cả các ô
+        - tile: kích thước ô
+    return: trả về 0 hoặc 1 là người chơi có thể di chuyển tiếp hay không
+    """
+    
+    """
+    Di chuyển người chơi
+    input:
+        - keys: kiểu dictionaries: các phím mà người chơi ấn
+        - player: kiểu pygame.Rect: thông số người chơi
+        - vel: tốc độ người chơi
+        - grid_cells: list chứa tất cả các ô
+        - tile: kích thước mỗi ô
+        - thickness: dộ dày các bức tường
+    """
+
+    """
+    kiểm tra xem người chơi có nhặt key hay bullet không
+    input:
+        - player: kiểu pygame.Rect: thông số của người chơi
+        - maze: kiểu Maze (trong file maze): mê cung hiện tại
+    return: x1, x2: kiểu bool: cho biết người chơi có nhặt key hay bullet không
+    """
+    
+    """
+    kiểm tra xem người chơi đến đích hay không
+    input:
+        - player: kiểu pygame.Rect: thông số người chơi
+        - goal_cell: kiểu Cell: thông số ô đích
+        - tile: kích thước mỗi ô
+    return: True hoặc False cho biết người chơi đã đên ô đích chưa
+    """
+    
+    """
+    kiểm tra xem người chơi có chọn chế độ chơi không, và thay đổi chế độ chơi
+    input:
+        - mouse_pos: vị trí con trỏ chuột trên màn hình
+        - easy_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "easy"
+        - normal_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "normal"
+        - hard_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "hard"
+        - nightmare_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "nightmare"
+    """
+    
+    """
+    khai báo các chỉ số khác và chạy vòng lặp game
+    """
+    
+    """
+    Gọi lại hàm main
+    """
