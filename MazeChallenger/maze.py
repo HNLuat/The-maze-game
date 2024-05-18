@@ -4,7 +4,16 @@ from random import choice
 
 
 class Maze:
-    # class của mê cung 
+    """
+    class: Maze: mê cung hiện tại
+    input:
+        - cols, rows, số hàng số cột của mê cung
+        - tile: kích thước mỗi ô trong mê cung
+        - obj1_size, obj2_size: lần lượt là kích thước của key và bullet
+    các thông số khác:
+        - thichness: độ dày của tường
+        - grid_cells: list tất cả các ô của mê cung
+    """
     def __init__(self, cols, rows, tile, obj1_size, obj2_size):
         self.cols = cols
         self.rows = rows
@@ -13,8 +22,11 @@ class Maze:
         self.grid_cells = [Cell(col, row, tile, self.thickness, obj1_size, obj2_size) for row in range(self.rows) for col in range(self.cols)]
         
     def remove_walls(self, current, next):
-        # input là 2 ô kề nhau
-        # hàm này sẽ phá tường giữa 2 ô
+        """
+        Phá tường giữa 2 ô
+        input:
+            - current, next: kiểu cells: là 2 ô cần phá tường ở giữa
+        """
         dx = current.x - next.x
         if dx == 1:
             current.walls['left'] = False
@@ -31,8 +43,10 @@ class Maze:
             next.walls['top'] = False
             
     def generate_maze(self):
-        # hàm tạo mê cung bằng cách phá tường giữa các ô
-        # hàm trả về mê cung sau khi đã phá tường
+        """
+        Tạo mê cung
+        return: grid_cells: list tất cả các ô sau khi phá tường
+        """
         current_cell = self.grid_cells[0]
         array = []
         break_count = 1
