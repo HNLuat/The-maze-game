@@ -9,7 +9,6 @@ from S_bullet import sbullet
 import math
 pygame.font.init()
 
-# các thông số chính của tựa game
 WIDTH, HEIGHT = 1200, 720
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Maze Challenger")
@@ -20,7 +19,17 @@ FONT = pygame.font.SysFont("comicsans", 30 )
 Mode = {"Easy": True, "Normal": False, "Hard": False, "Nightmare": False}
 
 class pause_table:
-    # các thuộc tính của bảng hiện lên khi dừng game
+    """
+    class: pause_table: bảng dừng game 
+    input:
+        - table_WIDTH: kiểu int: chiều rộng của bảng
+        - table_HEIGHT: kiểu int: chiều cao của bảng
+        - table_thickness: kiểu int: độ dày của hình chữ nhật của bảng
+        - element_WIDTH: kiểu int: chiều rộng của các hình chữ nhật nhỏ hơn, hitbox của nút "continue" và "return"
+        - element_HEIGHT: kiểu int: chiều cao của hình chữ nhật nhỏ
+        - element_thickness: kiểu int: độ dày của hình chữ nhật nhỏ
+        - size: kiểu int: kích thước font chữ
+    """
     def __init__(self, table_WIDTH, table_HEIGHT, table_thickness, element_WIDTH, element_HEIGHT, element_thickness, size ):
         self.Font_size = size
         self.Font =  pygame.font.SysFont("comicsans", size)
@@ -33,19 +42,28 @@ class pause_table:
         self.element_thickness = element_thickness
 
 def draw_BG():
-    # vẽ background
+    """
+    Vẽ background
+    """
     pygame.draw.rect(WIN, "black", black_BG )
 
 def draw_button(button):
-    # input là dữ liệu của nút "play game"
-    # vẽ nút "play game"
+    """
+    Vẽ nút play game
+    input: 
+        - button: kiểu dữ liệu pygame.Rect: là hitbox của nút
+    """
     pygame.draw.rect(WIN, "white", button, width = 5)
     play_text = FONT.render(f"PLAY GAME", 1, "white")
     WIN.blit(play_text, ( (WIDTH - 170)/2, (HEIGHT - 45)/2 ) )
 
 def draw_player(player, monster):
-    # input vào là dữ liệu của player và monster
-    # vẽ người chơi, cây súng của người chơi và xoay cây súng theo hướng của kẻ địch
+    """
+    vẽ người chơi và cho cây súng xoay về hướng kẻ địch
+    input:
+        - player: kiểu dữ liệu pygame.Rect: là các thông số của player.
+        - monster: kiểu dữ liệu Monster (trong file monster.py): là thông số của kẻ địch
+    """
     player_image = pygame.image.load("images/player.png")
     player_image = pygame.transform.scale(player_image, (player.w, player.h))
     gun_image = pygame.image.load("images/gun.png")
@@ -63,8 +81,14 @@ def draw_player(player, monster):
     WIN.blit(gun_image, gun_rect)
 
 def draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet):
-    # đưa và số lượng key đang có và số lượng key cần, số lượng bullet đang có và số lượng bullet tối đa
-    # vẽ cho người chơi biết số lượng key và bullet hiện có và hướng dẫn chơi
+    """
+    Vẽ các thứ ở góc phải màn hình khi chơi bao gồm số key hiện có, số bullet hiện có và hướng dẫn chơi
+    input:
+        - num_key: kiểu int: số lượng key mà người chơi hiện có
+        - num_bullet: kiểu int: số lượng bullet mà người chơi hiện có
+        - num_key_to_win: kiểu int: số lượng key mà người chơi cần có để thắng
+        - max_bullet: kiểu int: số lượng bullet tối đa mà người chơi có thể có 
+    """
     bullet = pygame.image.load("images/bullet.png")
     bullet = pygame.transform.scale(bullet, (75, 75))
 
@@ -89,14 +113,20 @@ def draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet):
     WIN.blit(howtoplay_text1, (800, 550))
     WIN.blit(howtoplay_text2, (800, 600))
 
-def draw_pause_button(P_image):
-    # đưa vào dữ liệu hình ảnh của nút dừng
-    # vẽ nút dừng
+def draw_pause_button():
+    """
+    Vẽ nút dừng game
+    """
+    P_image = pygame.image.load("images/pause_button.png")
+    P_image = pygame.transform.scale(P_image, (100, 100))
     WIN.blit(P_image, (WIDTH - 300, 20))
 
 def draw_paused_table(P_table):
-    # đưa vào dữ liệu của bảng dừng
-    # vẽ bảng khi dừng game
+    """
+    Vẽ bảng dừng game.
+    input:
+        - P_table: kiểu pause_table: thông số của bảng dừng game
+    """
     ct = P_table.continue_table
     rt = P_table.return_table
     F = P_table.Font
@@ -111,8 +141,11 @@ def draw_paused_table(P_table):
     WIN.blit(return_text, (rt.x + round((rt.width - 0.63*6*sz)/2) , rt.y + round((rt.height - 1.5*sz)/2) ) ) 
 
 def draw_gameover(win):
-    # đưa vào dữ liệu cho biết người chơi thắng hay thua
-    # vẽ khi game đã kết thúc
+    """
+    Vẽ dòng chữ hiện lên khi kết thúc game
+    input:
+        - win: kiểu bool: cho biết người chơi thắng hay thua
+    """
     gameover_text = FONT.render(f"GAME OVER", 1, "white")
     WIN.blit(gameover_text, (450, 280))
     
@@ -124,8 +157,15 @@ def draw_gameover(win):
         WIN.blit(youwin_text, (465, 350))
 
 def draw_cell(cells, obj1, obj1_size, obj2, obj2_size):
-    # đưa vào dữ liệu của 1 ô, và dữ liệu cho biết có key hay bullet ở ô đó không kích thước của key và bullet
-    # vẽ tường giữa những ô (cell)
+    """
+    Vẽ tường xung quanh 1 ô và key và bullet nếu có trong ô
+    input:
+        - cells: kiểu Cell (trong file cell): thông số của 1 ô
+        - obj1: kiểu pygame image: hình của bullet
+        - obj2: kiểu pygame image: hình của key
+        - obj1_size: kích thước của hình bullet (hình vuông)
+        - obj2_size: kích kích thước của hình key (hình vuông)
+    """ 
     x, y = cells.x * cells.tile, cells.y * cells.tile
     if cells.obj1_here :
         WIN.blit(obj1, (x + (cells.tile - obj1_size)//2, y + (cells.tile - obj1_size)//2) )
@@ -141,15 +181,24 @@ def draw_cell(cells, obj1, obj1_size, obj2, obj2_size):
         pygame.draw.line(WIN, pygame.Color('darkgreen'), (x, y + cells.tile), (x, y), cells.thickness)
     
 def draw_door(tile):
-    # đưa và kích thước ô
-    # vẽ cánh cổng ở ô đích
+    """
+    Vẽ cánh cửa ở ô đích
+    input:
+        - kích thước mỗi ô
+    """
     door_image = pygame.image.load("images/door.png")
     door_image = pygame.transform.scale(door_image, (tile - 5, tile - 5))
     WIN.blit(door_image, (HEIGHT - tile + 5, HEIGHT - tile ))
 
 def draw_Mode_button(easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button):
-    # đưa vào dữ liệu của các nút chon độ khó
-    # vẽ nút chọn độ khó và hiển thị độ khó hiện tại
+    """
+    Vẽ các nút chọn độ khó và cho biết độ khó đang chọn
+    input: 
+        - easy_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "easy"
+        - normal_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "normal"
+        - hard_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "hard"
+        - nightmare_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "nightmare"
+    """
     pygame.draw.rect(WIN, "green", easy_mode_button, width = 10)
     pygame.draw.rect(WIN, "orange", normal_mode_button, width = 10)
     pygame.draw.rect(WIN, "red", hard_mode_button, width = 10)
@@ -174,16 +223,27 @@ def draw_Mode_button(easy_mode_button, normal_mode_button, hard_mode_button, nig
 
 
 def get_current_cell(x, y, grid_cells):
-    # đưa vào x, y là vị trí
-    # trả vè ô (cell) ở vị trí (x, y)
+    """
+    Hàm lấy ô ở vị trí (x,y)
+    input:
+        - x, y: cả 2 đều kiểu int : vị trí của ô
+        - grid_cells: list chứa tất cả các ô
+    """
     for cell in grid_cells:
         if cell.x == x and cell.y == y:
             return cell
         
 def check_move(x, y, grid_cells, tile, thickness, moving_state):
-    # đưa vào vị trí người chơi, các ô trong mê cung, kích thước của cell, đồ dày bức tường, và trạng thái mà người chơi di chuyển
-    # kiểm tra xem người chơi có di chuyển đụng tường hay ra ngoài map không
-    # trả về trạng thái di chuyển mới sau khi đã chỉnh sửa
+    """
+    kiểm tra xem người chơi có di chuyển đụng tường hay không
+    input:
+        - x, y: đều là kiểu int: vị trí người chơi
+        - grid_cells: list chứa tất cả các ô
+        - tile: kiểu int: kích thước mỗi ô
+        - thickness: kiểu int: độ dày của tường
+        - moving_state: kiểu dictionaries: cho biết: trạng thái di chuyển hiện tại của người chơi
+    return: kiểu dictionaries: trạng thái di chuyển mới của người chơi
+    """
     current_cell_x, current_cell_y = x // tile, y // tile
     current_cell = get_current_cell(current_cell_x, current_cell_y, grid_cells)
     current_cell_abs_x, current_cell_abs_y = current_cell_x * tile, current_cell_y * tile
@@ -207,9 +267,16 @@ def check_move(x, y, grid_cells, tile, thickness, moving_state):
     return temp_moving_state
 
 def check_move2(direction, vel, x1, x2, y, grid_cells, tile):
-    # đưa và chiều mà người chơi hướng đến, vận tốc người chơi, vị trí các ô mà người chơi đang ở, các ô trong mê cung và kích thước mỗi ô
-    # kiểm tra xem người chơi có di chuyển vào giữa tường (wall) không
-    # hàm trả về 0 hoặc 1 biểu thị người chơi có thể di chuyển tiếp theo hướng cũ mà không đi vào giữa tường hay không
+    """
+    kiểm tra xem người chơi có đi vào giữa tường không
+    input: 
+        - direction: kiểu string: cho biết hướng đi hiện tại của người chơi
+        - vel: kiểu int: cho biết tốc độ của người chơi
+        - x1, x2, y: đều là kiểu int: cho biết vị trí của người chơi ở góc trái trên, trái dưới, hoặc là góc trái trên, phải trên
+        - grid_cells: list chứa tất cả các ô
+        - tile: kích thước ô
+    return: trả về 0 hoặc 1 là người chơi có thể di chuyển tiếp hay không
+    """
     current_cell_x1, current_cell_x2, current_cell_y = x1 // tile, x2 // tile, y // tile
     if direction == "left" or direction == "right" :
         current_cell_1 = get_current_cell(current_cell_y, current_cell_x1, grid_cells)
@@ -229,8 +296,16 @@ def check_move2(direction, vel, x1, x2, y, grid_cells, tile):
     return 1
 
 def MOVE(keys, player, vel, grid_cells, tile, thickness):
-    # đưa vào các phím mà người chơi ấn, dữ liệu của player, tốc độ của player, các ô trong mê cung và độ dày của tường
-    # di chuyển người chơi
+    """
+    Di chuyển người chơi
+    input:
+        - keys: kiểu dictionaries: các phím mà người chơi ấn
+        - player: kiểu pygame.Rect: thông số người chơi
+        - vel: tốc độ người chơi
+        - grid_cells: list chứa tất cả các ô
+        - tile: kích thước mỗi ô
+        - thickness: dộ dày các bức tường
+    """
     moving_state = {'left' : keys[pygame.K_LEFT], 'right' : keys[pygame.K_RIGHT], 'up' : keys[pygame.K_UP], 'down' : keys[pygame.K_DOWN] }
     temp_state = check_move(player.x, player.y, grid_cells, tile, thickness, moving_state)
     temp_state = temp_state and check_move(player.x + player.w, player.y, grid_cells, tile, thickness, moving_state)
@@ -248,9 +323,13 @@ def MOVE(keys, player, vel, grid_cells, tile, thickness):
     
 
 def check_eat_obj(player, maze):
-    # đưa vào dữ liệu player và maze
-    # kiểm tra xem người chơi có nhặt key hay bullet không
-    # hàm sẽ trả về 1 tuple(x, y), x = 1 thì người chơi nhặt được key, y = 1 thì người chơi nhặt được bullet
+    """
+    kiểm tra xem người chơi có nhặt key hay bullet không
+    input:
+        - player: kiểu pygame.Rect: thông số của người chơi
+        - maze: kiểu Maze (trong file maze): mê cung hiện tại
+    return: x1, x2: kiểu bool: cho biết người chơi có nhặt key hay bullet không
+    """
     eat1 = 0
     eat2 = 0
     for cell in maze.grid_cells :
@@ -265,8 +344,14 @@ def check_eat_obj(player, maze):
     return eat1, eat2
 
 def reached_goal(player, goal_cell, tile):
-    # đưa vào dữ liệu người chơi, ô đích, và kích thước ô
-    # kiểm tra xem người chơi đã đến đích chưa
+    """
+    kiểm tra xem người chơi đến đích hay không
+    input:
+        - player: kiểu pygame.Rect: thông số người chơi
+        - goal_cell: kiểu Cell: thông số ô đích
+        - tile: kích thước mỗi ô
+    return: True hoặc False cho biết người chơi đã đên ô đích chưa
+    """
     goal_cell_abs_x, goal_cell_abs_y = goal_cell.x * tile, goal_cell.y * tile
     if player.x >= goal_cell_abs_x and player.y >= goal_cell_abs_y:
         return True
@@ -274,8 +359,15 @@ def reached_goal(player, goal_cell, tile):
         return False
 
 def check_choose_mode(mouse_pos, easy_mode_button, normal_mode_button, hard_mode_button, nightmare_mode_button):
-    # đưa và vị trí con trỏ chuột, dữ liệu các nút chọn chế độ chơi
-    # kiểm tra xem người chơi có chọn chế độ chơi không, và thay đổi chế độ chơi
+    """
+    kiểm tra xem người chơi có chọn chế độ chơi không, và thay đổi chế độ chơi
+    input:
+        - mouse_pos: vị trí con trỏ chuột trên màn hình
+        - easy_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "easy"
+        - normal_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "normal"
+        - hard_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "hard"
+        - nightmare_mode_button: kiểu pygame.Rect: thông số của nút chọn độ khó "nightmare"
+    """
     easy = easy_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
     normal = normal_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
     hard = hard_mode_button.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
@@ -297,7 +389,9 @@ def check_choose_mode(mouse_pos, easy_mode_button, normal_mode_button, hard_mode
         Mode["Nightmare"] = True
 
 def main():
-    # chạy vòng lặp game
+    """
+    khai báo các chỉ số khác và chạy vòng lặp game
+    """
     inHub = True
     
     button_WIDTH = 200
@@ -309,8 +403,6 @@ def main():
     nightmare_mode_button = pygame.Rect(900, HEIGHT - 100, 300, 200)
 
     P_button = pygame.Rect(WIDTH - 300, 20, 100, 100)
-    P_image = pygame.image.load("images/pause_button.png")
-    P_image = pygame.transform.scale(P_image, (100, 100))
     P_table = pause_table(400, 300, 5, 300, 80, 5, 40)
     paused = False
 
@@ -504,11 +596,14 @@ def main():
             last_shoot_time = time.time()
             num_bullet -= 1
 
-        draw_pause_button(P_image)
+        draw_pause_button()
         draw_rightside(num_key, num_key_to_win, num_bullet, max_bullet)
         pygame.display.update()
     
     pygame.quit()
 
 if __name__ == "__main__":
+    """
+    Gọi lại hàm main
+    """
     main()
