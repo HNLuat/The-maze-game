@@ -1,10 +1,42 @@
-
-    # class của bullet khi được bắn ra và khi đang bay
-
-    # đưa vào surface để vẽ lên và kích thước của toàn bộ mê cung
-    # cho viên đạn bay tiếp và trả về 1 vị trí hiện tại có phù hợp, trả về 0 nếu không phù hợp
+    """
+    kiểm tra xem vị trí hiện tại có nằm trong mê cung không
+    input:
+        - x,y: vị trí cần xét
+        - n: kích thước mê cung
+    return: 1 nếu thỏa, 0 nếu không
+    """
+    
+    """
+    class: sbullet: viên đạn đang bay
+    input: 
+        - vel: tốc độ viên đạn
+        - size: kích thước viên đạn
+    các thông số khác:
+        - image: hình ảnh của viên đạn
+        - angle: góc của viên đạn
+        - rect: hitbox của viên đạn hiện tại
+    """
+    
+        """
+        cho viên đạn bay tiếp
+        input: 
+            - sc: surface để vẽ lên
+            - maze_size: kích thước mê cung
+        return :
+            - 1 nếu viên đạn còn nằm trong mê cung
+            - 0 nếu không
+        """
         
-    # đưa và surface để vẽ lên, vị trí của nơi xuất phát viên đạn, vị trí của đích đến viên đan
-    # hàm điều chỉnh góc của viên đạn khi người chơi bắn
-        
-    # đưa vào surface và vẽ viên đạn
+        """
+        điều chỉnh góc độ và bắt đầu bắn viên đạn
+        input:
+            - sc: surface để vẽ viên đạn
+            - xs, ys: vị trí hiện tại bắn viên đạn
+            - xd, yd: vị trí đích đến của viên đạn
+        """
+
+        """
+        vẽ viên đạn
+        input:
+            - sc: surface để vẽ viên đạn
+        """
