@@ -1,7 +1,33 @@
-    # dự liệu của kẻ địch (monster)
 
-    # đưa và dữ liệu player, maze
-    # di chuyển kẻ đich để bắt người chơi, trả về 1 nếu kẻ đich đã bắt được, trả về 0 khi vẫn chưa bắt được
-       
-    # đưa vào surface để vẽ lên và vẽ kẻ địch
+    """
+    Hàm lấy ô ở vị trí (x,y)
+    input:
+        - x, y: cả 2 đều kiểu int : vị trí của ô
+        - grid_cells: list chứa tất cả các ô
+    """
+
+    """
+    class: Monster: kẻ địch
+    input:
+        - vel: tốc độ kẻ địch
+        - size: kích thước kẻ địch
+    các thông sô khác:
+        - color: màu để vẻ kẻ địch
+        - rect: kiểu pygame.Rect: thông số, hitbox của kẻ địch
+    """
+
+        """
+        Tìm đường và di chuyển kẻ địch:
+        input: 
+            - player: kiểu pygame.Rect: thông số của người chơi
+            - maze: mê cung hiện tại
+        return:
+            - 1 nếu kẻ địch bắt được người chơi
+            - 0 nếu không
+        """
         
+        """
+        Vẽ kẻ địch
+        input:
+            - sc: surface để vẻ lên
+        """
