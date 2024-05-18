@@ -1,7 +1,20 @@
 import pygame
 
 class Cell:
-    # class của kiểu ô (cell)
+    """
+    class: Cell: mỗi ô trong mê cung
+    input: 
+        - x, y: đều là kiểu int: vị trí của ô
+        - tile: kiểu int: kích thước mỗi ô
+        - thickness: kiểu int: độ dày của tường
+        - obj1_size: kiểu int: kích thước key
+        - obj2_size: kiểu int: kích thước bullet
+    các thông số khác:
+        - walls: kiểu dictionaries: cho biêt giữa ô này với các ô xung quanh có tường không
+        - obj1_here: kiểu bool: cho biết ô này có key không
+        - obj2_here: kiểu bool: cho biết ô này có bullet không
+        - visited: kiểu bool: cho biết ô này đã thăm chưa (chỉ được dùng trong thuật tìm đường đi và thuật tạo mê cung)
+    """
     def __init__(self, x, y, tile, thickness, obj1_size, obj2_size):
         self.x, self.y, self.tile = x, y, tile
         self.obj1_here = 0
@@ -14,16 +27,27 @@ class Cell:
         self.visited = False
         
     def check_cell(self, x, y, cols, rows, grid_cells):
-        # đưa và vị trí, số cột, số hàng và danh sách các ô trong mê cung
-        # kiểm tra xem ô (cell) có tồn tại không và trả về ô đó nếu có
+        """
+        Kiểm tra xem ô có tồn tại không
+        input:
+            - x, y: vị trí của ô
+            - cols, rows: số cột và số hàng của mê cung
+            - grid_cells: list tất cả các ô
+        return : False nếu ô đó không tồn tại, trả về chính ô đó nếu tồn tại
+        """
         find_index = lambda x, y: x + y * cols
         if x < 0 or x > cols - 1 or y < 0 or y > rows - 1:
             return False
         return grid_cells[find_index(x, y)]
 
     def check_neighbors(self, cols, rows, grid_cells):
-        # đưa vào số hàng, số cột, danh sách các ô trong mê cung
-        # kiểm tra xem các ô bên cạnh đã đi vào chưa và trả về các ô chưa đến
+        """
+        Kiểm tra xem các ô bên cạnh đã thăm chưa và trả về các ô chưa thăm
+        input:
+            - cols, rows: số lượng cột và hàng trong mê cung
+            - grid_cells: list tất cả các ô
+        return : list các ô bên cạnh chưa thăm
+        """
         neighbors = []
         top = self.check_cell(self.x, self.y - 1, cols, rows, grid_cells)
         right = self.check_cell(self.x + 1, self.y, cols, rows, grid_cells)
